@@ -1,4 +1,5 @@
-let humanScore, computerScore = 0;
+let humanScore, computerScore
+let round = 1;
 
 // GENERATE random selection for computer
 const getComputerChoice = () => {
@@ -8,7 +9,7 @@ const getComputerChoice = () => {
     console.log(choice);
     if (choice <= 33) {
         return "rock";
-    } else if (33 < choice <= 66) {
+    } else if (choice > 33 && choice <= 66) {
         return "paper";
     } else {
         return "scissors";
@@ -18,12 +19,11 @@ const getComputerChoice = () => {
 
 // GET user input
 const getHumanChoice = () => {
-    let choice = prompt("Throw rock paper or scissors: ").toLowerCase();
+    do {
+        choice = prompt(`Round ${round}: Choose rock paper or scissors: `).toLowerCase();
+    } while (choice !== "rock" && choice !== "paper" && choice !== "scissors")
     return choice;
 }
-
-const computerChoice = getComputerChoice();
-const humanChoice = getHumanChoice();
 
 // Play round function taking input params
 // Calculate winner by comparing params
@@ -39,9 +39,11 @@ const playRound = (humanChoice, computerChoice) => {
             case "scissors":
                 humanScore++;
                 console.log(`You win! ${humanChoice} beats ${computerChoice}`);
+                break;
             case "paper":
                 computerScore++;
                 console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
+                break;
         }
     }
     if (humanChoice === "paper") {
@@ -49,9 +51,11 @@ const playRound = (humanChoice, computerChoice) => {
             case "rock":
                 humanScore++;
                 console.log(`You win! ${humanChoice} beats ${computerChoice}`);
+                break;
             case "scissors":
                 computerScore++;
                 console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
+                break;
         }
     }
     if (humanChoice === "scissors") {
@@ -59,14 +63,14 @@ const playRound = (humanChoice, computerChoice) => {
             case "rock":
                 computerScore++;
                 console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
+                break;
             case "paper":
                 humanScore++;
                 console.log(`You win! ${humanChoice} beats ${computerChoice}`);
+                break;
         }
     }
 }
-
-playRound(humanChoice, computerChoice);
 
 // Play game function
 // Loop 5 times
@@ -75,8 +79,21 @@ playRound(humanChoice, computerChoice);
 // Track score
 // Log winner
 
-// const playGame = () => {
-//     for (let i = 0; i < 5; i++) {
-//         playRound(humanChoice, computerChoice);
-//     }
-// }
+const playGame = () => {
+    for (let i = 0; i < 5; i++) {
+        const computerChoice = getComputerChoice();
+        const humanChoice = getHumanChoice();
+        playRound(humanChoice, computerChoice);
+        round++;
+    }
+
+    if (humanScore === computerScore) {
+        console.log("It's a tie!")
+    } else if (humanScore > computerScore) {
+        console.log("You win!")
+    } else if (computerScore > humanScore) {
+        console.log("You lose.")
+    }
+}
+
+playGame()
